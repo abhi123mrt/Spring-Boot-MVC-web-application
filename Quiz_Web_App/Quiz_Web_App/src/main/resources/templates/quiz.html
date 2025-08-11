@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quiz Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        h2 {
+            text-align: center;
+            color: #e74c3c;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #fafafa;
+            border-left: 5px solid #3498db;
+            border-radius: 10px;
+        }
+
+        .question-block p {
+            font-weight: bold;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 6px 0;
+            padding-left: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            display: block;
+            width: 150px;
+            margin: 30px auto 0;
+            padding: 12px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #219150;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Quiz Page</h1>
+
+<!-- Show error if no questions -->
+<div th:if="${errorMessage}">
+    <p style="color: red;">[[${errorMessage}]]</p>
+</div>
+
+<!-- Show timer -->
+<div th:if="${questions}">
+    <h2>Time Left: <span id="timer">Loading...</span></h2>
+</div>
+
+<!-- Show quiz if questions exist -->
+<div th:if="${questions}">
+    <form method="post" action="/submit-quiz">
+        <input type="hidden" name="username" th:value="${session.username}" />
+        <input type="hidden" name="category" th:value="${questions[0].title}" />
+
+        <div th:each="q, stat : ${questions}">
+            <p><strong>Q[[${stat.count}]]:</strong> [[${q.question}]]</p>
+            <label><input type="radio" th:name="${'q' + q.id}" th:value="${q.option_1}"> <span th:text="${q.option_1}"></span></label><br>
+            <label><input type="radio" th:name="${'q' + q.id}" th:value="${q.option_2}"> <span th:text="${q.option_2}"></span></label><br>
+            <label><input type="radio" th:name="${'q' + q.id}" th:value="${q.option_3}"> <span th:text="${q.option_3}"></span></label><br>
+            <label><input type="radio" th:name="${'q' + q.id}" th:value="${q.option_4}"> <span th:text="${q.option_4}"></span></label><br><br>
+
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+
+</div>
+
+<!-- Timer Script -->
+<script th:inline="javascript">
+    let timeLimit = /*[[${timeLimit}]]*/ 20; // fallback = 20 min
+    let totalSeconds = timeLimit * 60;
+
+    function startTimer() {
+        const timerDisplay = document.getElementById("timer");
+
+        const countdown = setInterval(() => {
+            let minutes = Math.floor(totalSeconds / 60);
+            let seconds = totalSeconds % 60;
+
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            if (totalSeconds <= 0) {
+                clearInterval(countdown);
+                alert("⏰ Time's up! Auto-submitting your quiz.");
+                document.querySelector("form").submit(); // Auto-submit
+            }
+
+            totalSeconds--;
+        }, 1000);
+    }
+
+    startTimer();
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--  <title>Quiz Result</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1>Final Quiz Result</h1>-->
+
+<!--<p><strong>Name:</strong> <span th:text="${result.username}"></span></p>-->
+<!--<p><strong>Category:</strong> <span th:text="${result.category}"></span></p>-->
+<!--<p><strong>Total Questions:</strong> <span th:text="${result.total_question}"></span></p>-->
+<!--<p><strong>Attempted:</strong> <span th:text="${result.attempted}"></span></p>-->
+<!--<p><strong>Correct Answers:</strong> <span th:text="${result.correct_answer}"></span></p>-->
+<!--<p><strong>Wrong Answers:</strong> <span th:text="${result.wrong_answer}"></span></p>-->
+<!--<p><strong>Score:</strong> <span th:text="${result.score}"></span></p>-->
+
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Quiz Result</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 40px;
+    }
+
+    .result-container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333333;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 12px 0;
+    }
+
+    strong {
+      color: #444444;
+    }
+
+    .score {
+      font-size: 22px;
+      color: green;
+      font-weight: bold;
+    }
+
+    .btn {
+      display: block;
+      margin: 30px auto 0;
+      padding: 12px 24px;
+      text-align: center;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="result-container">
+  <h1>Final Quiz Result</h1>
+
+  <p><strong>Name:</strong> <span th:text="${result.username}">Username</span></p>
+  <p><strong>Category:</strong> <span th:text="${result.category}">Category</span></p>
+  <p><strong>Total Questions:</strong> <span th:text="${result.total_question}">30</span></p>
+  <p><strong>Attempted:</strong> <span th:text="${result.attempted}">25</span></p>
+  <p><strong>Correct Answers:</strong> <span th:text="${result.correct_answer}">20</span></p>
+  <p><strong>Wrong Answers:</strong> <span th:text="${result.wrong_answer}">5</span></p>
+  <p><strong>Score:</strong> <span class="score" th:text="${result.score}">20</span></p>
+  <a th:href="@{/category/select}" class="btn">Back to Categories</a>
+
+<!--  <a th:href="@{/categories}" class="btn">Back to Categories</a>-->
+</div>
+
+</body>
+</html>
